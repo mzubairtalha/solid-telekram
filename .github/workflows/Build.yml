@@ -1,0 +1,27 @@
+name: Build KaiOS 2.5
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: oven-sh/setup-bun@v1
+      
+      - name: Install dependencies
+        run: bun install
+        
+      - name: Copy env
+        run: cp .env .env.local
+        
+      - name: Build for KaiOS 2.5
+        run: bun run build
+        
+      - name: Upload dist as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: telekram-kaios25
+          path: dist/
